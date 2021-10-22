@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Servlet empleado</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    </head>
+    <body>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <form action="ServletDatos" method="GET">
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="card white hoverable">
+                        <div class="card-content black-text">
+                            <span class="card-title">Calcular descuentos a salario:</span>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">attach_money</i>
+                                    <input id="base" type="text" class="validate" name="base" onkeyup="notNull()">
+                                    <label for="icon_prefix">Salario base</label>
+                                    <span class="helper-text" data-error="Salario no válido." data-success="✓">Ingresar solo números</span>
+                                </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">card_giftcard</i>
+                                    <input id="bonus" type="text" class="validate" onkeyup="finish()" name="bonus">
+                                    <label for="icon_telephone">Bonificación</label>
+                                    <span class="helper-text" data-error="Bonificación no válida." data-success="✓">Ingresar solo números</span>
+                                </div>
+                            </div>
+                            <button class="waves-effect waves-light btn" type="submit" id="calcbtn"><i class="material-icons right">paid</i>Calcular</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            M.AutoInit();
+            var btn = document.getElementById('calcbtn');
+            btn.disabled = true;
+            var base = document.getElementById("base");
+            base.addEventListener('keyup', verifyNumbersOnly);
+            var bonus = document.getElementById("bonus");
+            bonus.addEventListener('keyup', verifyNumbersOnly);
+            base.addEventListener('keyup', notNull);
+            bonus.disabled = true;
+            
+            function notNull(e){
+                var value = document.getElementById('base').value;
+                if(value === "" || value == null || value === undefined){
+                    bonus.disabled = true;
+                }else{
+                    bonus.disabled = false;
+                }
+            }
+            function verifyNumbersOnly(e) {
+                var val = this.value;
+                var re = /^([0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)$/g;
+                var re1 = /^([0-9]+[\.]?[0-9]?[0-9]?|[0-9]+)/g;
+                if (re.test(val)) {
+
+                } else {
+                    val = re1.exec(val);
+                    if (val) {
+                        this.value = val[0];
+                    } else {
+                        //M.toast({html: `'${val}' no está permitido en este campo`, classes: 'rounded'});
+                        this.value = "";
+                        //console.log(val);
+                        
+                    }
+
+                }
+            }
+
+            function finish() {
+                var baseValue = document.getElementById('base').value;
+                var bonusValue = document.getElementById('bonus').value;
+                console.log(baseValue);
+                console.log(bonusValue);
+                if (baseValue === "" || baseValue === null && bonusValue === "" || bonusValue == null) {
+                    document.getElementById('calcbtn').disabled = true;
+                } else {
+                    document.getElementById('calcbtn').disabled = false;
+                }
+            }
+
+        </script>
+    </body>
+</html>
